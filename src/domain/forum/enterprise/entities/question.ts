@@ -8,7 +8,7 @@ import { Slug } from './value-objects/slug'
 
 export interface QuestionProps {
   authorId: UniqueEntityId
-  bestAnswerId?: UniqueEntityId
+  bestAnswerId?: UniqueEntityId | null
   title: string
   content: string
   slug: Slug
@@ -22,11 +22,11 @@ export class Question extends AggregateRoot<QuestionProps> {
     return this.props.authorId
   }
 
-  get bestAnswerId(): UniqueEntityId | undefined {
+  get bestAnswerId(): UniqueEntityId | undefined | null {
     return this.props.bestAnswerId
   }
 
-  set bestAnswerId(bestAnswerId: UniqueEntityId | undefined) {
+  set bestAnswerId(bestAnswerId: UniqueEntityId | undefined | null) {
     if (bestAnswerId && bestAnswerId !== this.props.bestAnswerId) {
       this.addDomainEvent(new QuestionBestAnswerChosenEvent(this, bestAnswerId))
     }
